@@ -1,0 +1,23 @@
+version: "3"
+
+networks:
+  nw001:
+    driver: bridge
+    
+services: 
+  app:
+    image: thielserra/php:8.1-apache
+    tty: true
+    container_name: larakey_app
+    entrypoint: sh /docker-entrypoint.sh 
+    restart: "always"
+    volumes:
+      - "./:/var/www/html"
+      - "./docker/apache/sites-available:/etc/apache2/sites-available"
+      - "./docker/apache/logs:/var/log/apache2"
+    # labels:
+    #   - "traefik.http.routers.simoni.rule=Host(`simoni.docker.localhost`)"
+    ports:
+      - "8005:80"
+    networks:
+      - nw001
